@@ -5,14 +5,21 @@ import org.springframework.stereotype.Service;
 
 import rambookapp.Form.Registrationform;
 import rambookapp.Repository.UserRepository;
+import rambookapp.com.rambookapp.util.EmailUtil;
 import rambookapp.model.Student;
 @Service
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private EmailUtil emailUtil;
 	public Student findByEmailAndPassword(String email, String password) {
 
 		return userRepository.findByEmailAndPassword(email, password);
+	}
+	public Student findByEmail(String email)
+	{
+		return userRepository.findByEmail(email);
 	}
 
 	
@@ -30,7 +37,14 @@ public class UserService {
 		
 		
 		userRepository.save(userObj);
+		String subject = "Your account has been created";
+		String body = "Welcome to Revature ! You can login to your account !";
+		emailUtil.send(userObj.getEmail(),subject, body);
+		
 
 	}
+
+
+	
 	
 }

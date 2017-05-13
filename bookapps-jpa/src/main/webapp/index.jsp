@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,12 +33,20 @@
 					</div>
 				</div>
 				<div class="portlet-body">
+				<c:forEach items="${errors}" var="error">
+					<font color="red"><c:out value="${error.defaultMessage}"  /></font> <br/>
+				</c:forEach>
+				
+				<c:if test="${not empty ERROR_MESSAGE}">
+					<font color="red"><c:out value="${ERROR_MESSAGE}" /></font> <br/>
+				</c:if>
+				
 					<form action="auth/login" method="POST">
 						<div class="form-group">
 							<label for="userName">EmailId :</label> <input type="email"
 								class="form-control" name="email" placeholder="Enter emailId"
 								autofocus="autofocus" required="required" id="emailId"
-								value="" />
+								value="${regFormData.email.trim()}" />
 						</div>
 
 						<div class="form-group">

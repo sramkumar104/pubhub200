@@ -6,6 +6,9 @@ import rambookapp.model.Student;
 
 public interface UserRepository extends JpaRepository<Student, Long>{
 	public Student findByEmailAndPassword(String emailId, String password);	
-	public Student findByEmail(String emailId);
+	public Student findByEmail(String email) ;
+		
+	
+	
 }
 

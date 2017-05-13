@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import rambookapp.Form.LoginForm;
 import rambookapp.Form.Registrationform;
 import rambookapp.Repository.UserRepository;
 import rambookapp.model.Student;
@@ -29,19 +28,29 @@ import rambookapp.service.UserService;
 	@Autowired
 	private UserRepository userRepository;
 	@PostMapping("/login")
-	public String login(@RequestParam("email") String emailId, @RequestParam("password") String password, HttpSession session)
+	public String login(@ModelAttribute @Valid LoginForm users,BindingResult result,ModelMap modelMap, HttpSession session)
 	{
 		LOGGER.info("Entering Login");
-		LOGGER.debug(new Object[] { emailId, password });
-		Student user = userRepository.findByEmailAndPassword(emailId, password);
-		if (user != null) {
-			session.setAttribute("log_user", emailId);
+		LOGGER.debug(new Object[] {users.getEmail(),users.getPassword() });
+		Student user = userRepository.findByEmailAndPassword(users.getEmail(),users.getPassword());
+		if (result.hasErrors()) {
+			System.out.println("front end error");
+			modelMap.addAttribute("errors", result.getAllErrors());
+			modelMap.addAttribute("regFormData", users );
+			return "index";
+		}else if (user != null) {
+			System.out.println("user validation");
+			session.setAttribute("log_user", user);
+			session.setAttribute("log_id", users.getEmail());
+			session.setAttribute("log_name", user.getName());
 			LOGGER.info("login sucess");
-			return "redirect:../books";
+			return "list";
 		}
 		else
 		{
-		return "fail";
+			modelMap.addAttribute("regFormData", users );
+			
+		return "index";
 	}
 	}
 	@GetMapping("/register")

@@ -1,5 +1,7 @@
 package rambookapp.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -45,5 +47,7 @@ public class Book {
 
 	@Column(name = "price")
 	private Integer price;
+	@Column(name="released_date")
+	private LocalDate releasedDate;
 
 }

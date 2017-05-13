@@ -20,7 +20,7 @@
       <li class="active"><a href="#">Home</a></li>
       
     </ul>
-    <a href="../" class='btn btn-primary'>log in</a>
+   
   </div>
 </nav>
 </body>
